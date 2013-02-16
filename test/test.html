@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Test | QueryStorage</title>
+<link rel="stylesheet" href="vendor/mocha.css">
+<script src="../queryStorage.js"></script>
+<script src="vendor/mocha.js"></script>
+<script src="vendor/expect.js"></script>
+<script src="vendor/setup.js"></script>
+<script src="queryStorage_test.js"></script>
+</head>
+<body>
+	<div id="mocha"></div>
+	<div id="test_items">
+		<form action="." target="_self" name="form1" id="test-form">
+			<fieldset name="select-enable">
+				<legend>select items (fieldset: enabled)</legend>
+				<select id="test-select-single-1" name="select-single-1">
+					<option value="item1" selected>item1</option>
+					<option value="item2">item2</option>
+					<option value="item3">item3</option>
+					<option value="item4">item4</option>
+					<option value="item5">item5</option>
+				</select>
+
+				<select id="test-select-multi-1" name="select-multi-1" multiple>
+					<option value="item1" selected>item1</option>
+					<option value="item2" selected>item2</option>
+					<option value="item3">item3</option>
+					<option value="item4">item4</option>
+					<option value="item5">item5</option>
+				</select>
+
+				<select id="test-select-group-1" name="select-group-1">
+					<optgroup label="group1">
+						<option value="item1" selected>item1</option>
+						<option value="item2">item2</option>
+						<option value="item3">item3</option>
+					</optgroup>
+					<optgroup label="group2">
+						<option value="item4">item4</option>
+						<option value="item5">item5</option>
+						<option value="item6">item6</option>
+					</optgroup>
+				</select>
+			</fieldset>
+
+
+			<fieldset name="select-disabled" disabled>
+				<legend>select items (fieldset: disabled)</legend>
+				<select id="test-select-single-2" name="select-single-2">
+					<option value="item1" selected>item1</option>
+					<option value="item2">item2</option>
+					<option value="item3">item3</option>
+					<option value="item4">item4</option>
+					<option value="item5">item5</option>
+				</select>
+
+				<select id="test-select-multi-2" name="select-multi-2" multiple>
+					<option value="item1" selected>item1</option>
+					<option value="item2" selected>item2</option>
+					<option value="item3">item3</option>
+					<option value="item4">item4</option>
+					<option value="item5">item5</option>
+				</select>
+
+				<select id="test-select-group-2" name="select-group-2">
+					<optgroup label="group1">
+						<option value="item1" selected>item1</option>
+						<option value="item2">item2</option>
+						<option value="item3">item3</option>
+					</optgroup>
+					<optgroup label="group2">
+						<option value="item4">item4</option>
+						<option value="item5">item5</option>
+						<option value="item6">item6</option>
+					</optgroup>
+				</select>
+			</fieldset>
+
+			<fieldset name="choices-enabled">
+				<legend>choices (fieldset: enabled)</legend>
+				<label for="choices-1-1"><input id="choices-1-1" name="choices1[]" type="checkbox" checked />item1</label>
+				<label for="choices-1-2"><input id="choices-1-2" name="choices1[]" type="checkbox" checked />item2</label>
+				<label for="choices-1-3"><input id="choices-1-3" name="choices1[]" type="checkbox" />item3</label>
+				<label for="choices-1-4"><input id="choices-1-4" name="choices1[]" type="checkbox" />item4</label>
+				<label for="choices-1-5"><input id="choices-1-5" name="choices1[]" type="checkbox" />item5</label>
+				<label for="choices-1-6"><input id="choices-1-6" name="choices1[]" type="checkbox" />item6</label>
+				<label for="choices-1-7"><input id="choices-1-7" name="choices1[]" type="checkbox" />item7</label>
+				<label for="choices-1-8"><input id="choices-1-8" name="choices1[]" type="checkbox" />item8</label>
+				<label for="choices-1-9"><input id="choices-1-9" name="choices1[]" type="checkbox" />item9</label>
+				<label for="choices-1-10"><input id="choices-1-10" name="choices1[]" type="checkbox" />item10</label>
+			</fieldset>
+
+			<fieldset name="choices-disabled" disabled>
+				<legend>choices (fieldset: disabled)</legend>
+				<label for="choices-2-1"><input id="choices-2-1" name="choices2[]" type="checkbox" checked />item1</label>
+				<label for="choices-2-2"><input id="choices-2-2" name="choices2[]" type="checkbox" checked />item2</label>
+				<label for="choices-2-3"><input id="choices-2-3" name="choices2[]" type="checkbox" />item3</label>
+				<label for="choices-2-4"><input id="choices-2-4" name="choices2[]" type="checkbox" />item4</label>
+				<label for="choices-2-5"><input id="choices-2-5" name="choices2[]" type="checkbox" />item5</label>
+				<label for="choices-2-6"><input id="choices-2-6" name="choices2[]" type="checkbox" />item6</label>
+				<label for="choices-2-7"><input id="choices-2-7" name="choices2[]" type="checkbox" />item7</label>
+				<label for="choices-2-8"><input id="choices-2-8" name="choices2[]" type="checkbox" />item8</label>
+				<label for="choices-2-9"><input id="choices-2-9" name="choices2[]" type="checkbox" />item9</label>
+				<label for="choices-2-10"><input id="choices-2-10" name="choices2[]" type="checkbox" />item10</label>
+			</fieldset>
+
+			<fieldset name="text-enabled">
+				<legend>text (fieldset: enabled)</legend>
+				<input name="text-1" type="text" value="item1" />
+			</fieldset>
+
+			<fieldset name="text-disabled" disabled>
+				<legend>text (fieldset: disabled)</legend>
+				<input name="text-2" type="text" value="item2" />
+			</fieldset>
+
+			<fieldset name="textarea-enabled">
+				<legend>textarea (fieldset: enabled)</legend>
+				<textarea id="textarea-1" name="text-area1" rows="10" cols="30">item1</textarea>
+			</fieldset>
+			<fieldset name="textarea-enabled" disabled>
+				<legend>textarea (fieldset: disabled)</legend>
+				<textarea id="textarea-2" name="text-area2" rows="10" cols="30">item2</textarea>
+			</fieldset>
+
+			<fieldset name="keygen-enabled">
+				<legend>keygen (fieldset: enabled)</legend>
+				<keygen name="keygen-1" />
+			</fieldset>
+
+			<fieldset name="keygen-disabled" disabled>
+				<legend>keygen (fieldset: disabled)</legend>
+				<keygen name="keygen-2" />
+			</fieldset>
+
+			<fieldset name="not-sendable-items">
+				<legend>not sendable items</legend>
+				<input name="not-sendable-item-image" type="image" />
+				<input name="not-sendable-item-reset" type="reset" />
+				<input name="not-sendable-item-file" type="file" />
+				<input name="not-sendable-item-submit" type="submit" />
+				<button name="not-sendable-item-button">button</button>
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>
