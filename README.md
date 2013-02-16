@@ -23,7 +23,7 @@ In browser include single JavaScript file:
 ##API
 
 ###QueryStorage#create
-    var storage = storage.create(form);
+    var storage = QueryStorage.create(form);
 
 ###QueryStorage#add
     storage.add({name: "cond[ccc]", value: "123"});
