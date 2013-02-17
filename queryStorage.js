@@ -63,11 +63,45 @@
   };
 
   QueryStorage.prototype.generateHashData = function () {
+    var formData = this.data
+      , hashData = {}
+      , bracketDataList = {}
+      , bracketData
+      , bracketName
+      , data
+      , name
+      , val
+      , bracketPattern = /\[\]$/
+      , i
+      , iz
+      ;
 
+    for (i = 0, iz = formData.length; i < iz; i++) {
+      data = formData[i];
+      name = data.name;
+      val = data.value;
+
+      if (bracketPattern.test(name)) {
+        bracketDataList[name] = bracketDataList[name] || [];
+        bracketDataList[name].push(val);
+        continue;
+      }
+      hashData[name] = val;
+    }
+
+    for (bracketName in bracketDataList) if (bracketDataList.hasOwnProperty(bracketName)) {
+      bracketData = bracketDataList[bracketName];
+      for (i = 0, iz = bracketData.length; i < iz; i++) {
+        name = bracketName.replace(bracketPattern, '[' + i + ']');
+        val = bracketData[i];
+        hashData[name] = val;
+      }
+    }
+
+    return hashData;
   };
 
   QueryStorage.prototype.generateHiddenItems = function () {
-
   };
 
   local.distillFormValues = function (form) {
@@ -101,7 +135,10 @@
       }
 
       val = element.value;
-      val = (typeof val === "string") ? val.replace(rPattern, "").replace(crlfPattern, "\r\n") : ((val == null) ? "" : val);
+      val = (typeof val === "string") ?
+        val.replace(rPattern, "").replace(crlfPattern, "\r\n") :
+        (val == null) ? "" : val;
+
       dataset.push({name: name, value: val});
     }
 

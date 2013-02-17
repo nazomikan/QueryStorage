@@ -10,7 +10,7 @@ describe('QueryStorage', function () {
         expect(storage instanceof QueryStorage).to.be.ok();
       });
 
-      it('should have form item\'s data', function () {
+      it('should have enabled form item\'s data', function () {
         var storage = QueryStorage.create(form)
           , data = storage.data
           ;
@@ -19,18 +19,33 @@ describe('QueryStorage', function () {
               {name: "select-single-1", value: "item1"},
               {name: "select-multi-1", value:"item1"},
               {name: "select-group-1","value":"item1"},
-              {name: "choices1[]", value: "on"},
-              {name: "choices1[]", value: "on"},
+              {name: "choices1[]", value: "item1"},
+              {name: "choices1[]", value: "item2"},
               {name: "text-1", value: "item1"},
-              {name: "text-area1", value: "item1"},
-              {name: "keygen-1", value: "高強度の暗号化"}
+              {name: "text-area1", value: "item1"}
+//              {name: "keygen-1", value: "高強度の暗号化"}
           ]);
       });
     });
   });
 
   describe('QueryStorage#generateHashData', function () {
+    it('should return hash data', function () {
+        var storage = QueryStorage.create(form)
+          , hash = storage.generateHashData()
+          ;
 
+         expect(hash).to.eql({
+             "select-single-1": "item1",
+             "select-multi-1": "item1",
+             "select-group-1": "item1",
+             "choices1[0]": "item1",
+             "choices1[1]": "item2",
+             "text-1": "item1",
+             "text-area1": "item1"
+//           "keygen-1": "高強度の暗号化"
+          });
+    });
   });
 
   describe('QueryStorage#generateUrlParams', function () {
