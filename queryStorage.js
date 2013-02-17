@@ -357,7 +357,20 @@
       return Sizzle.matchesSelector(element, ':disabled');
     }
 
-    return element.disabled === true;
+    return (element.disabled === true || function (parent) {
+      while (parent) {
+        try {
+          if (parent.nodeName.toLowerCase() === 'fieldset') {
+            return parent.disabled === true;
+          }
+          parent = parent.parentNode;
+        } catch (err) {
+          return false;
+        }
+      }
+
+      return false;
+    }(element.parentNode));
   }
 
   function _isArray(ary) {
