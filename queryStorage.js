@@ -24,11 +24,13 @@
       ;
 
     QueryStorage.apply(queryStorage, args);
+
     return queryStorage;
   };
 
   QueryStorage.prototype.add = function (data) {
     this.data.push(data);
+
     return this;
   };
 
@@ -40,8 +42,8 @@
     for (i = 0, iz = dataList.length; i < iz; i++) {
       this.data.push(dataList[i]);
     }
-    return this;
 
+    return this;
   };
 
   QueryStorage.prototype.delete = function (name) {
@@ -98,7 +100,6 @@
     }
 
     return this;
-
   };
 
   QueryStorage.prototype.deleteExceptGroup = function (groupName) {
@@ -149,6 +150,7 @@
       queryList.push(keyValStr);
     }
     queryString = queryList.join('&amp;');
+
     return queryString;
   };
 
@@ -245,6 +247,7 @@
   local.valHooks = {
     option: function (optionItem) {
       var val = optionItem.attributes.value;
+
       return !val || val.specified ? optionItem.value : optionItem.text;
     },
     select: function (selectItem) {
@@ -265,13 +268,14 @@
           continue;
         }
 
-        value =  getItemValue(option);
+        value = getItemValue(option);
         if (one) {
           return value;
         }
 
         values.push(value);
       }
+
       return values;
     }
   };
@@ -343,7 +347,7 @@
       element.webkitMatchesSelector ||
       element.oMatchesSelector ||
       element.msMatchesSelector
-    ;
+      ;
 
     if (matches) {
       return matches.call(element, ':disabled');
@@ -374,11 +378,14 @@
         return i;
       }
     }
+
     return -1;
   }
 
   function nodeListToArray(nodeList) {
-    var len, res;
+    var len
+      , res
+      ;
 
     try {
       res = slide.call(nodeList);
@@ -403,6 +410,7 @@
     }
     function F() {}
     F.prototype = obj;
+
     return new F();
   }
 
