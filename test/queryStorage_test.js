@@ -158,11 +158,46 @@ describe('QueryStorage', function () {
   });
 
   describe('QueryStorage#deleteGroup', function () {
+    it('should remove group items', function () {
+      var storage = QueryStorage.create(form)
+        ;
 
+      storage.deleteGroup('choices1');
+      expect(storage.data).to.eql([
+        {name: "select-single-1", value: "item1"},
+        {name: "select-multi-1[]", value:"item1"},
+        {name: "select-multi-1[]", value:"item2"},
+        {name: "select-group-1","value":"item1"},
+        {name: "text-1", value: "item1"},
+        {name: "text-area1", value: "item1"}
+        //{name: "keygen-1", value: "高強度の暗号化"}
+      ]);
+    });
   });
 
   describe('QueryStorage#deleteExcept', function () {
+    it('should remove except designated items', function () {
+      var storage = QueryStorage.create(form)
+        ;
 
+      storage.deleteExcept('text-1');
+      expect(storage.data).to.eql([
+        {name: "text-1", value: "item1"}
+      ]);
+    });
+  });
+
+  describe('QueryStorage#deleteExceptGroup', function () {
+    it('should remove except designated group items', function () {
+      var storage = QueryStorage.create(form)
+        ;
+
+      storage.deleteExceptGroup('choices1');
+      expect(storage.data).to.eql([
+        {name: "choices1[]", value: "item1"},
+        {name: "choices1[]", value: "item2"}
+      ]);
+    });
   });
 
   describe('QueryStorage#has', function () {

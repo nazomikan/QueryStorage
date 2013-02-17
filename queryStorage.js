@@ -68,19 +68,53 @@
     }
 
     return this;
-
   };
 
   QueryStorage.prototype.deleteGroup = function (groupName) {
+    var data = this.data
+      , idxList = local.getAllIndexOfGroup(data, groupName)
+      , i
+      , iz
+      ;
 
+    for (i = idxList.length - 1, iz = 0; i >= iz; i--) {
+      data.splice(idxList[i], 1);
+    }
+
+    return this;
   };
 
   QueryStorage.prototype.deleteExcept = function (name) {
+    var data = this.data
+      , idx = local.getIndex(data, name)
+      , i
+      , iz
+      ;
+
+    for (i = data.length - 1, iz = 0; i >= iz; i--) {
+      if (idx !== i) {
+        data.splice(i, 1);
+      }
+    }
+
+    return this;
 
   };
 
   QueryStorage.prototype.deleteExceptGroup = function (groupName) {
+    var data = this.data
+      , idxList = local.getAllIndexOfGroup(data, groupName)
+      , i
+      , iz
+      ;
 
+    for (i = data.length - 1, iz = 0; i >= iz; i--) {
+      if (_indexOf(idxList, i) === -1) {
+        data.splice(i, 1);
+      }
+    }
+
+    return this;
   };
 
   QueryStorage.prototype.has = function (name) {
@@ -267,6 +301,23 @@
 
     return idxList.sort();
   }
+
+  local.getAllIndexOfGroup = function (dataList, groupName) {
+    var idxList = []
+      , namePrefix = groupName + '['
+      , i
+      , iz
+      ;
+
+    namePrefix = ' ' + namePrefix;
+    for (i = 0, iz = dataList.length; i < iz; i++) {
+        if ((' ' + dataList[i].name).indexOf(namePrefix) !== -1) {
+            idxList.push(i);
+        }
+    }
+
+    return idxList.sort();
+  };
 
   function getItemValue(formItem) {
     var nodeName = formItem.nodeName.toLowerCase()
