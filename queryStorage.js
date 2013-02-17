@@ -5,6 +5,8 @@
     global[name] = definition();
   }
 })('QueryStorage', this, function () {
+  // I referenced the a lot of code from jQuery. ex($.valHooks, $.serializeArray)
+  // return thanks to jQuery.
   var arrayProto = Array.prototype
     , slice = arrayProto.slice
     , toString = Object.prototype.toString
@@ -24,10 +26,19 @@
   };
 
   QueryStorage.prototype.add = function (data) {
-
+    this.data.push(data);
+    return this;
   };
 
   QueryStorage.prototype.addAll = function (datalist) {
+    var i
+      , iz
+      ;
+
+    for (i = 0, iz = datalist.length; i < iz; i++) {
+      this.data.push(datalist[i]);
+    }
+    return this;
 
   };
 
