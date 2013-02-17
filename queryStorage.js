@@ -10,6 +10,7 @@
   var arrayProto = Array.prototype
     , slice = arrayProto.slice
     , toString = Object.prototype.toString
+    , nativeIndexOf = arrayProto.indexOf
     , local = {}
     ;
 
@@ -19,7 +20,8 @@
 
   QueryStorage.create = function (form) {
     var queryStorage = createObject(QueryStorage.prototype)
-      , args = slice.call(arguments);
+      , args = slice.call(arguments)
+      ;
 
     QueryStorage.apply(queryStorage, args);
     return queryStorage;
@@ -30,13 +32,13 @@
     return this;
   };
 
-  QueryStorage.prototype.addAll = function (datalist) {
+  QueryStorage.prototype.addAll = function (dataList) {
     var i
       , iz
       ;
 
-    for (i = 0, iz = datalist.length; i < iz; i++) {
-      this.data.push(datalist[i]);
+    for (i = 0, iz = dataList.length; i < iz; i++) {
+      this.data.push(dataList[i]);
     }
     return this;
 
@@ -44,8 +46,9 @@
 
   QueryStorage.prototype.delete = function (name) {
     var data = this.data
-      , idx = local.getIndex(name)
+      , idx = local.getIndex(data, name)
       ;
+
     if (idx !== -1) {
       data.splice(idx, 1);
     }
@@ -53,7 +56,18 @@
     return this;
   };
 
-  QueryStorage.prototype.deleteAll = function (namelist) {
+  QueryStorage.prototype.deleteAll = function (nameList) {
+    var data = this.data
+      , idxList = local.getAllIndex(data, nameList)
+      , i
+      , iz
+      ;
+
+    for (i = idxList.length - 1, iz = 0; i >= iz; i--) {
+      data.splice(idxList[i], 1);
+    }
+
+    return this;
 
   };
 
@@ -177,7 +191,7 @@
       }
 
       val = getItemValue(element);
-      if (isArray(val)) {
+      if (_isArray(val)) {
         for (j = 0, jz = val.length; j < jz; j++) {
           dataset.push({name: name, value: trimCRLF(val[j])});
         }
@@ -223,19 +237,36 @@
     }
   };
 
-  local.getIndex = function (datalist, name) {
+  local.getIndex = function (dataList, name) {
     var i
       , iz
-      , idx = -1;
+      , idx = -1
+      ;
 
-    for (i = 0, iz = datalist.length; i < iz; i++) {
-        if (datalist[i].name === name) {
-            idx = i;
-            return idx;
-        }
+    for (i = 0, iz = dataList.length; i < iz; i++) {
+      if (dataList[i].name === name) {
+        idx = i;
+        return idx;
+      }
     }
+
     return idx;
   };
+
+   local.getAllIndex = function (dataList, nameList) {
+    var idxList = []
+      , i
+      , iz
+      ;
+
+    for (i = 0, iz = dataList.length; i < iz; i++) {
+      if (_indexOf(nameList, dataList[i].name) !== -1) {
+        idxList.push(i);
+      }
+    }
+
+    return idxList.sort();
+  }
 
   function getItemValue(formItem) {
     var nodeName = formItem.nodeName.toLowerCase()
@@ -269,20 +300,37 @@
     return element.disabled === true;
   }
 
-  function isArray(ary) {
+  function _isArray(ary) {
     return "[object Array]" === toString.call(ary);
   }
 
-  function nodeListToArray(nodelist) {
+  function _indexOf(ary, needle) {
+    var i
+      , iz
+      ;
+
+    if (nativeIndexOf && ary.indexOf === nativeIndexOf) {
+      return ary.indexOf(needle);
+    }
+
+    for (i = 0, iz = ary.length; i < iz; i++) {
+      if (ary[i] === needle) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  function nodeListToArray(nodeList) {
     var len, res;
 
     try {
-      res = slide.call(nodelist);
+      res = slide.call(nodeList);
     } catch (e) {
       res = [];
-      len = nodelist.length || 0;
+      len = nodeList.length || 0;
       while(len--) {
-        res[len] = nodelist[len];
+        res[len] = nodeList[len];
       }
     }
 

@@ -125,7 +125,7 @@ describe('QueryStorage', function () {
         var storage = QueryStorage.create(form)
           ;
 
-        storage.delete('select-single1');
+        storage.delete('select-single-1');
         expect(storage.data).to.eql([
           {name: "select-multi-1[]", value:"item1"},
           {name: "select-multi-1[]", value:"item2"},
@@ -140,7 +140,21 @@ describe('QueryStorage', function () {
   });
 
   describe('QueryStorage#deleteAll', function () {
+    it('should remove items', function () {
+        var storage = QueryStorage.create(form)
+          ;
 
+        storage.deleteAll(['select-single-1', 'text-1']);
+        expect(storage.data).to.eql([
+          {name: "select-multi-1[]", value:"item1"},
+          {name: "select-multi-1[]", value:"item2"},
+          {name: "select-group-1","value":"item1"},
+          {name: "choices1[]", value: "item1"},
+          {name: "choices1[]", value: "item2"},
+          {name: "text-area1", value: "item1"}
+          //{name: "keygen-1", value: "高強度の暗号化"}
+        ]);
+    });
   });
 
   describe('QueryStorage#deleteGroup', function () {
