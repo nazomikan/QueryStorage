@@ -17,7 +17,8 @@ describe('QueryStorage', function () {
 
          expect(data).to.eql([
               {name: "select-single-1", value: "item1"},
-              {name: "select-multi-1", value:"item1"},
+              {name: "select-multi-1[]", value:"item1"},
+              {name: "select-multi-1[]", value:"item2"},
               {name: "select-group-1","value":"item1"},
               {name: "choices1[]", value: "item1"},
               {name: "choices1[]", value: "item2"},
@@ -37,7 +38,8 @@ describe('QueryStorage', function () {
 
          expect(hash).to.eql({
              "select-single-1": "item1",
-             "select-multi-1": "item1",
+             "select-multi-1[0]": "item1",
+             "select-multi-1[1]": "item2",
              "select-group-1": "item1",
              "choices1[0]": "item1",
              "choices1[1]": "item2",
@@ -49,7 +51,13 @@ describe('QueryStorage', function () {
   });
 
   describe('QueryStorage#generateUrlParams', function () {
+    it('should return url params', function () {
+        var storage = QueryStorage.create(form)
+          , queryString = storage.generateUrlParams()
+          ;
 
+      expect(queryString).to.equal("select-single-1=item1&amp;select-multi-1%5B%5D=item1&amp;select-multi-1%5B%5D=item2&amp;select-group-1=item1&amp;choices1%5B%5D=item1&amp;choices1%5B%5D=item2&amp;text-1=item1&amp;text-area1=item1");
+    });
   });
 
   describe('QueryStorage#generateHiddenItems', function () {

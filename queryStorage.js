@@ -7,6 +7,7 @@
 })('QueryStorage', this, function () {
   var arrayProto = Array.prototype
     , slice = arrayProto.slice
+    , toString = Object.prototype.toString
     , local = {}
     ;
 
@@ -59,7 +60,22 @@
   };
 
   QueryStorage.prototype.generateUrlParams = function () {
+    var formData = this.data
+      , queryString
+      , queryList = []
+      , keyValStr
+      , data
+      , i
+      , iz
+      ;
 
+    for (i = 0, iz = formData.length; i < iz; i++) {
+      data = formData[i];
+      keyValStr = encodeURIComponent(data.name) + "=" + encodeURIComponent(data.value);
+      queryList.push(keyValStr);
+    }
+    queryString = queryList.join('&amp;');
+    return queryString;
   };
 
   QueryStorage.prototype.generateHashData = function () {
@@ -119,7 +135,15 @@
       , val
       , i
       , iz
+      , j
+      , jz
       ;
+
+    function trimCRLF(val) {
+      return val = (typeof val === "string") ?
+        val.replace(rPattern, "").replace(crlfPattern, "\r\n") :
+        (val == null) ? "" : val;
+    }
 
     elements = (elementsList) ? nodeListToArray(elementsList) : form;
     for (i = 0, iz = elements.length; i < iz; i++) {
@@ -134,16 +158,65 @@
         continue;
       }
 
-      val = element.value;
-      val = (typeof val === "string") ?
-        val.replace(rPattern, "").replace(crlfPattern, "\r\n") :
-        (val == null) ? "" : val;
-
-      dataset.push({name: name, value: val});
+      val = getItemValue(element);
+      if (isArray(val)) {
+        for (j = 0, jz = val.length; j < jz; j++) {
+          dataset.push({name: name, value: trimCRLF(val[j])});
+        }
+        continue;
+      }
+      dataset.push({name: name, value: trimCRLF(val)});
     }
 
     return dataset;
   };
+
+  local.valHooks = {
+    option: function (optionItem) {
+      var val = optionItem.attributes.value;
+      return !val || val.specified ? optionItem.value : optionItem.text;
+    },
+    select: function (selectItem) {
+      var type = selectItem.type
+        , options = selectItem.options
+        , index = selectItem.selectedIndex
+        , one = type === "select-one" || index < 0
+        , values = one ? null : []
+        , max = one ? index + 1 : options.length
+        , i = index < 0 ? max : (one ? index : 0)
+        , option
+        , value
+        ;
+
+      for (; i < max; i++) {
+        option = options[i];
+        if (!option.selected && i !== index ) {
+          continue;
+        }
+
+        value =  getItemValue(option);
+        if (one) {
+          return value;
+        }
+
+        values.push(value);
+      }
+      return values;
+    }
+  };
+
+  function getItemValue(formItem) {
+    var nodeName = formItem.nodeName.toLowerCase()
+      , type = formItem.type
+      , hooks = local.valHooks[type] || local.valHooks[nodeName]
+      ;
+
+    if (hooks) {
+      return hooks(formItem);
+    }
+
+    return formItem.value;
+  }
 
   function isDisabled(element) {
     var matches = element.matchesSelector ||
@@ -162,6 +235,10 @@
     }
 
     return element.disabled === true;
+  }
+
+  function isArray(ary) {
+    return "[object Array]" === toString.call(ary);
   }
 
   function nodeListToArray(nodelist) {
