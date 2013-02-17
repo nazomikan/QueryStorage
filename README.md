@@ -1,8 +1,6 @@
 QueryStorage
 ===
 
-まだ未完成っす。
-
 ## Description
 this library provide management way of form data.
 QueryStorage likes FormData (html5)
@@ -32,34 +30,31 @@ In browser include single JavaScript file:
     storage.addAll([{name: "cond[ccc]", value: "123"}, {name: "cond[ccc]", value: "123"}]);
 
 ###QueryStorage#delete
-    storage.delete('cond[aaa]');
+    storage.delete("cond[aaa]");
 
 ###QueryStorage#deleteAll
     storage.deleteAll(["cond[aaa]", "cond[bbb]"]);
 
 ###QueryStorage#deleteGroup
-    storage.deleteGroup('cond');
+    storage.deleteGroup("cond");
 
 ###QueryStorage#deleteExcept
-    storage.deleteExcept('cond[aaa]');
+    storage.deleteExcept("cond[aaa]");
 
 ###QueryStorage#deleteExceptGroup
-    storage.deleteExceptGroup('cond')
+    storage.deleteExceptGroup("cond")
 
 ###QueryStorage#has
-    storage.has('cond[ddd]'); //true or false
+    storage.has("cond[ddd]"); //true or false
 
 ###QueryStorage#hasGroup
-    storage.hasGroup('cond'); //true or false
+    storage.hasGroup("cond"); //true or false
 
 ###QueryStorage#generateUrlParams
-    storage.generateUrlParams(); //a=b&c=d
+    storage.generateUrlParams(); //a=b&amp;c=d
 
 ###QueryStorage#generateHashData
-    storage.generateHashData(); //[{cond[a]: 123}, {cond[b]: 456}]
-
-###QueryStorage#generateHiddenItems
-    storage.genetrateHiddenItems();
+    storage.generateHashData(); //[{"cond[a]": 123}, {"cond[b]": 456}]
 
 ##License:
 <pre>

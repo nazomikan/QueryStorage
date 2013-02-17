@@ -118,11 +118,19 @@
   };
 
   QueryStorage.prototype.has = function (name) {
+    var data = this.data
+      , idx = local.getIndex(data, name)
+      ;
 
+    return (idx !== -1) ? true : false;
   };
 
   QueryStorage.prototype.hasGroup = function (groupName) {
+    var data = this.data
+      , idxList = local.getAllIndexOfGroup(data, groupName)
+      ;
 
+    return (idxList.length > 0) ? true : false;
   };
 
   QueryStorage.prototype.generateUrlParams = function () {
@@ -181,9 +189,6 @@
     }
 
     return hashData;
-  };
-
-  QueryStorage.prototype.generateHiddenItems = function () {
   };
 
   local.distillFormValues = function (form) {

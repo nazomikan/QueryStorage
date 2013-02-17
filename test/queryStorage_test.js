@@ -69,10 +69,6 @@ describe('QueryStorage', function () {
     });
   });
 
-  describe('QueryStorage#generateHiddenItems', function () {
-
-  });
-
   describe('QueryStorage#add', function () {
     it('should add given data', function () {
       var storage = QueryStorage.create(form)
@@ -201,15 +197,37 @@ describe('QueryStorage', function () {
   });
 
   describe('QueryStorage#has', function () {
+    var storage = QueryStorage.create(form)
+      ;
 
-  });
+    describe('when QS have the specified name', function () {
+      it('should return true', function () {
+        expect(storage.has('text-1')).to.be.ok();
+      });
+    });
 
-  describe('QueryStorage#has', function () {
-
+    describe('when QS dont have the specified name', function () {
+      it('should return false', function () {
+        expect(storage.has('text-2')).to.be(false);
+      });
+    });
   });
 
   describe('QueryStorage#hasGroup', function () {
+    var storage = QueryStorage.create(form)
+      ;
 
+    describe('when QS have the specified group', function () {
+      it('should return true', function () {
+        expect(storage.hasGroup('choices1')).to.be.ok();
+      });
+    });
+
+    describe('when QS dont have the specified group', function () {
+      it('should return false', function () {
+        expect(storage.hasGroup('choices2')).to.be(false);
+      });
+    });
   });
 
   afterEach(function () {
