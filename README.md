@@ -35,7 +35,7 @@ In browser include single JavaScript file:
     storage.delete('cond[aaa]');
 
 ###QueryStorage#deleteAll
-    storage.deleteAll('cond[aaa]', cond['bbb']);
+    storage.deleteAll(["cond[aaa]", "cond[bbb]"]);
 
 ###QueryStorage#deleteGroup
     storage.deleteGroup('cond');

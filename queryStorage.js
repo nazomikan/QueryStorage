@@ -43,10 +43,17 @@
   };
 
   QueryStorage.prototype.delete = function (name) {
+    var data = this.data
+      , idx = local.getIndex(name)
+      ;
+    if (idx !== -1) {
+      data.splice(idx, 1);
+    }
 
+    return this;
   };
 
-  QueryStorage.prototype.deleteAll = function (name) {
+  QueryStorage.prototype.deleteAll = function (namelist) {
 
   };
 
@@ -214,6 +221,20 @@
       }
       return values;
     }
+  };
+
+  local.getIndex = function (datalist, name) {
+    var i
+      , iz
+      , idx = -1;
+
+    for (i = 0, iz = datalist.length; i < iz; i++) {
+        if (datalist[i].name === name) {
+            idx = i;
+            return idx;
+        }
+    }
+    return idx;
   };
 
   function getItemValue(formItem) {
