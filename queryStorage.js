@@ -353,10 +353,6 @@
       return matches.call(element, ':disabled');
     }
 
-    if (window.Sizzle) {
-      return Sizzle.matchesSelector(element, ':disabled');
-    }
-
     return (element.disabled === true || function (parent) {
       while (parent) {
         try {
