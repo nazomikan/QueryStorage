@@ -1,6 +1,6 @@
 {
-    "name": "QueryStorage",
-    "version": "0.0.1",
+    "name": "querystorage",
+    "version": "0.0.2",
     "main": "./queryStorage.js",
     "dependencies": {},
     "ignore": [
